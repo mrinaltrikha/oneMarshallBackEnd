@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
       && this.adminPassword === this.globals.adminPassword) {
       this.modalViewForAdminLogin_Ref.close();
       this.globals.isAdminMode = true;
-      this.router.navigateByUrl('/homeAdmin');
+      this.router.navigateByUrl('/students');
       return;
     }
 
