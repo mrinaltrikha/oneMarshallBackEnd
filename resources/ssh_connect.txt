@@ -1,0 +1,15 @@
+chmod 400 ~/Documents/GitHub/dlp/resources/dlp.pem
+
+ssh -i ~/Documents/GitHub/dlp/resources/dlp.pem bitnami@ec2-13-57-24-156.us-west-1.compute.amazonaws.com
+
+cd apps/dlp
+
+sudo git pull
+sudo npm install
+sudo ng build
+sudo node server.js production
+
+
+
+
+

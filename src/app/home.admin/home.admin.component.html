@@ -1,0 +1,27 @@
+<form>
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input type="text" class="form-control" name="firstName" id="firstName" aria-describedby="emailHelp" [(ngModel)]="member.firstName">
+  </div>
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input type="text" class="form-control" name="lastName" id="lastName" [(ngModel)]="member.lastName">
+  </div>
+  <div class="form-group">
+    <label for="phone">Phone Number</label>
+    <input type="phone" class="form-control" name="phone" id="phone" [(ngModel)]="member.phone">
+  </div>
+  <div class="form-group">
+    <label for="email">Email Id</label>
+    <input type="email" class="form-control" name="email" id="email" [(ngModel)]="member.email">
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" name="password" id="password" [(ngModel)]="member.password">
+  </div>
+  <div class="form-group">
+    <label for="dateOfBirth">Date Of Birth</label>
+    <input type="date" class="form-control" name="dateOfBirth" id="dateOfBirth" [(ngModel)]="member.dob">
+  </div>
+  <button type="button" class="btn btn-primary" (click)="registerMember()">Register</button>
+</form>

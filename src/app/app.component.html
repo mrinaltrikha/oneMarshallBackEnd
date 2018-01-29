@@ -1,0 +1,132 @@
+<header class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Digital Loyalty Program</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a *ngIf="globals.isAdminMode" routerLink="/students" routerLinkActive="active" class="nav-link">Students</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a *ngIf="globals.isAdminMode" routerLink="/members" routerLinkActive="active" class="nav-link">Members</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf="globals.isAdminMode" routerLink="/partners" routerLinkActive="active" class="nav-link">Partners</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf="globals.isAdminMode" routerLink="/coupons" routerLinkActive="active" class="nav-link">Coupons</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf="globals.isAdminMode" routerLink="/redemptionItems" routerLinkActive="active" class="nav-link">Redemption Items</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf="!globals.isAdminMode && globals.isMemberLoggedIn()" routerLink="/userDashboard" routerLinkActive="active" class="nav-link">Member Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf="!globals.isAdminMode && globals.isMemberLoggedIn()" routerLink="/redeemPoints" routerLinkActive="active" class="nav-link">Get Coupons</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf="!globals.isAdminMode && globals.isMemberLoggedIn()" routerLink="/redeemPoints" routerLinkActive="active" class="nav-link">Redeem Your Points</a>
+        </li> -->
+        <!-- <li ngbDropdown class="nav-item dropdown">
+          <a ngbDropdownToggle class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Dropdown
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li> -->
+      </ul>
+      <button *ngIf="!globals.isAdminMode && !globals.isMemberLoggedIn()" class="btn btn-outline-success mr-3" (click)="showMemberLoginForm(modalViewForMemberLogin)">Student Login</button>
+      <button *ngIf="!globals.isAdminMode && !globals.isMemberLoggedIn()" class="btn btn-outline-primary" (click)="showAdminLoginForm(modalViewForAdminLogin)">Admin Login</button>
+      <button *ngIf="globals.isAdminMode || globals.isMemberLoggedIn()" class="btn btn-outline-dark" (click)="logout()">Logout</button>
+      <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
+      <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+    </div>
+  </nav>
+</header>
+
+<ng-template #modalViewForAdminLogin let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Admin Log In!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngb-alert *ngIf="isAdminLoginFailed" type="danger" [dismissible]="false">
+      <strong>Authentication Failed!</strong> Username and/or Password don't match</ngb-alert>
+    <form>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="adminUsername">Admin Username</label>
+            <input type="text" class="form-control" name="adminUsername" id="adminUsername" [(ngModel)]="adminUsername">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="adminPassword">Admin Password</label>
+            <input type="password" class="form-control" name="adminPassword" id="adminPassword" [(ngModel)]="adminPassword">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="tryAdminLogin()">Login</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #modalViewForMemberLogin let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Member Log In!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngb-alert *ngIf="isMemberLoginFailed" type="danger" [dismissible]="false">
+      <strong>Authentication Failed!</strong> Username and/or Password don't match</ngb-alert>
+    <form>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="memberEmail">Email-Id</label>
+            <input type="email" class="form-control" name="memberEmail" id="memberEmail" [(ngModel)]="memberEmail">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="memberPassword">Password</label>
+            <input type="password" class="form-control" name="memberPassword" id="memberPassword" [(ngModel)]="memberPassword">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="tryMemberLogin()">Login</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<div class="container mt-3">
+  <router-outlet></router-outlet>
+</div>

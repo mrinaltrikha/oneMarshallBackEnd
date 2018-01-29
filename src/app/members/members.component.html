@@ -1,0 +1,93 @@
+<div class="card">
+    <h4 class="card-header">Registered Members</h4>
+    <div class="card-body text-right">
+        <button type="button" class="btn btn-primary" (click)="showAddNewRecordForm(modalViewForRecordDetails)">
+            Add Member
+        </button>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Date of Birth</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of listOfAllRecords; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ record.firstName }}</td>
+                    <td>{{ record.lastName }}</td>
+                    <td>{{ record.phone }}</td>
+                    <td>{{ record.email }}</td>
+                    <td>{{ record.dob }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                            <button type="button" class="btn btn-primary" (click)="showEditRecordForm(record._id, modalViewForRecordDetails)">EDIT</button>
+                            <button type="button" class="btn btn-danger" (click)="deleteRecord(record._id)">DELETE</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted text-center" [ngPlural]="listOfAllRecords.length">
+        <ng-template ngPluralCase="=0">No Record</ng-template>
+        <ng-template ngPluralCase="=1">1 Record</ng-template>
+        <ng-template ngPluralCase="other">{{listOfAllRecords.length}} Records</ng-template>
+    </div>
+</div>
+
+<ng-template #modalViewForRecordDetails let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == true">Add Member</h4>
+        <h4 class="modal-title" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == false">Edit Member</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="recordBeingEdited.firstName">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" name="lastName" id="lastName" [(ngModel)]="recordBeingEdited.lastName">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="phone" class="form-control" name="phone" id="phone" [(ngModel)]="recordBeingEdited.phone">
+            </div>
+            <div class="form-group">
+                <label for="email">Email Id</label>
+                <input type="email" class="form-control" name="email" id="email" [(ngModel)]="recordBeingEdited.email" [readonly]="modalViewForRecordDetails_IsOpenForAddNew == false">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" id="password" [(ngModel)]="recordBeingEdited.password">
+            </div>
+            <div class="form-group">
+                <label for="dateOfBirth">Date Of Birth</label>
+                <input type="date" class="form-control" name="dateOfBirth" id="dateOfBirth" [(ngModel)]="recordBeingEdited.dob">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == true" (click)="createRecord()">Create Record</button>
+        <button type="button" class="btn btn-primary" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == false" (click)="updateRecord()">Save Changes</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>

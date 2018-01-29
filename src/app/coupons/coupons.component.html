@@ -1,0 +1,87 @@
+<div class="card">
+  <h4 class="card-header">All Coupons</h4>
+  <div class="card-body text-right">
+      <button type="button" class="btn btn-primary" (click)="showAddNewRecordForm(modalViewForRecordDetails)">
+          Add New Coupon
+      </button>
+  </div>
+  <div class="card-body">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Code</th>
+                  <th scope="col">Offered By Partner</th>
+                  <th scope="col">Expiry</th>
+                  <th scope="col"></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let record of listOfAllRecords; let i = index">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>{{ record.couponName }}</td>
+                  <td>{{ record.couponPartner.businessName }}</td>
+                  <td>{{ record.couponCode }}</td>
+                  <td>{{ record.couponExpiryDate }}</td>
+                  <td>
+                      <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                          <button type="button" class="btn btn-primary" (click)="showEditRecordForm(record._id, modalViewForRecordDetails)">EDIT</button>
+                          <button type="button" class="btn btn-danger" (click)="deleteRecord(record._id)">DELETE</button>
+                      </div>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+  <div class="card-footer text-muted text-center" [ngPlural]="listOfAllRecords.length">
+      <ng-template ngPluralCase="=0">No Record</ng-template>
+      <ng-template ngPluralCase="=1">1 Record</ng-template>
+      <ng-template ngPluralCase="other">{{listOfAllRecords.length}} Records</ng-template>
+  </div>
+</div>
+
+<ng-template #modalViewForRecordDetails let-c="close" let-d="dismiss">
+  <div class="modal-header">
+      <h4 class="modal-title" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == true">Add Coupon</h4>
+      <h4 class="modal-title" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == false">Edit Coupon</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <form>
+          <div class="row">
+              <div class="col">
+                  <div class="form-group">
+                      <label for="couponName">Coupon Name</label>
+                      <input type="text" class="form-control" name="couponName" id="couponName" [(ngModel)]="recordBeingEdited.couponName">
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col">
+                  <div class="form-group">
+                      <label for="couponCode">Coupon Code</label>
+                      <input type="text" class="form-control" name="couponCode" id="couponCode" [(ngModel)]="recordBeingEdited.couponCode">
+                  </div>
+              </div>
+              <div class="col">
+                  <div class="form-group">
+                      <label for="couponPartner">Coupon Offered By Partner</label>
+                      <input type="text" class="form-control" name="couponPartner" id="couponPartner" [(ngModel)]="recordBeingEdited.couponPartner">
+                  </div>
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="couponExpiryDate">Coupon Expiry Date</label>
+              <input type="date" class="form-control" name="couponExpiryDate" id="couponExpiryDate" [(ngModel)]="recordBeingEdited.couponExpiryDate">
+          </div>
+      </form>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-primary" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == true" (click)="createRecord()">Create Record</button>
+      <button type="button" class="btn btn-primary" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == false" (click)="updateRecord()">Save Changes</button>
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>

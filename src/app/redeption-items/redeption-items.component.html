@@ -1,0 +1,95 @@
+<div class="card">
+    <h4 class="card-header">Available Redemption Items</h4>
+    <div class="card-body text-right">
+        <button type="button" class="btn btn-primary" (click)="showAddNewRecordForm(modalViewForRecordDetails)">
+            Add Redemption Item
+        </button>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Cost (in Points)</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of listOfAllRecords; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td><img class="thumb" height="35px" *ngIf="record.displayImage" [src]="record.displayImage.value" /></td>
+                    <td>{{ record.name }}</td>
+                    <td>{{ record.description }}</td>
+                    <td>{{ record.costInPoints }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                            <button type="button" class="btn btn-primary" (click)="showEditRecordForm(record._id, modalViewForRecordDetails)">EDIT</button>
+                            <button type="button" class="btn btn-danger" (click)="deleteRecord(record._id)">DELETE</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted text-center" [ngPlural]="listOfAllRecords.length">
+        <ng-template ngPluralCase="=0">No Record</ng-template>
+        <ng-template ngPluralCase="=1">1 Record</ng-template>
+        <ng-template ngPluralCase="other">{{listOfAllRecords.length}} Records</ng-template>
+    </div>
+</div>
+
+<ng-template #modalViewForRecordDetails let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == true">Add Redemption Item</h4>
+        <h4 class="modal-title" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == false">Edit Redemption Item</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" [(ngModel)]="recordBeingEdited.name">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" rows="3" name="description" id="description" [(ngModel)]="recordBeingEdited.description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="costInPoints">Cost (in Points)</label>
+                        <input type="text" class="form-control" name="costInPoints" id="costInPoints" [(ngModel)]="recordBeingEdited.costInPoints">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="displayImage">Display Image</label>
+                            <input type="file" id="displayImage" (change)="onFileChange($event)" #fileInput>
+                            <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button> -->
+                        </div>
+                    </div>
+                </div>
+                <img class="thumb" *ngIf="recordBeingEdited.displayImage" [src]="recordBeingEdited.displayImage.value" />
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == true" (click)="createRecord()">Create Record</button>
+        <button type="button" class="btn btn-primary" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == false" (click)="updateRecord()">Save Changes</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>

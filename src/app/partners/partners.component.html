@@ -1,0 +1,93 @@
+<div class="card">
+    <h4 class="card-header">Registered Partners</h4>
+    <div class="card-body text-right">
+        <button type="button" class="btn btn-primary" (click)="showAddNewRecordForm(modalViewForRecordDetails)">
+            Add Partner
+        </button>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Business Name</th>
+                    <th scope="col">Contact Person First Name</th>
+                    <th scope="col">Contact Person Last Name</th>
+                    <th scope="col">Contact Person Phone</th>
+                    <th scope="col">Contact Person Email</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of listOfAllRecords; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ record.businessName }}</td>
+                    <td>{{ record.contactPersonFirstName }}</td>
+                    <td>{{ record.contactPersonLastName }}</td>
+                    <td>{{ record.contactPersonPhone }}</td>
+                    <td>{{ record.contactPersonEmail }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                            <button type="button" class="btn btn-primary" (click)="showEditRecordForm(record._id, modalViewForRecordDetails)">EDIT</button>
+                            <button type="button" class="btn btn-danger" (click)="deleteRecord(record._id)">DELETE</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted text-center" [ngPlural]="listOfAllRecords.length">
+        <ng-template ngPluralCase="=0">No Record</ng-template>
+        <ng-template ngPluralCase="=1">1 Record</ng-template>
+        <ng-template ngPluralCase="other">{{listOfAllRecords.length}} Records</ng-template>
+    </div>
+</div>
+
+<ng-template #modalViewForRecordDetails let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == true">Add Member</h4>
+        <h4 class="modal-title" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == false">Edit Member</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="businessName">Business Name</label>
+                        <input type="text" class="form-control" name="businessName" id="businessName" [(ngModel)]="recordBeingEdited.businessName">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="contactPersonFirstName">First Name</label>
+                        <input type="text" class="form-control" name="contactPersonFirstName" id="contactPersonFirstName" [(ngModel)]="recordBeingEdited.contactPersonFirstName">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="contactPersonLastName">Last Name</label>
+                        <input type="text" class="form-control" name="contactPersonLastName" id="contactPersonLastName" [(ngModel)]="recordBeingEdited.contactPersonLastName">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contactPersonPhone">Phone Number</label>
+                <input type="phone" class="form-control" name="contactPersonPhone" id="contactPersonPhone" [(ngModel)]="recordBeingEdited.contactPersonPhone">
+            </div>
+            <div class="form-group">
+                <label for="contactPersonEmail">Email Id</label>
+                <input type="email" class="form-control" name="contactPersonEmail" id="contactPersonEmail" [(ngModel)]="recordBeingEdited.contactPersonEmail">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == true" (click)="createRecord()">Create Record</button>
+        <button type="button" class="btn btn-primary" *ngIf="modalViewForRecordDetails_IsOpenForAddNew == false" (click)="updateRecord()">Save Changes</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>

@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="card-header">
+    Points Redemptions History
+  </div>
+  <div class="card-body">
+    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+      <ngb-panel *ngFor="let memberRedemptionOrder of listOfAllmemberRedemptionOrders; let i = index" id="static-{{ i + 1}}" title="Order # {{memberRedemptionOrder._id}} was placed on {{memberRedemptionOrder.redeemedOn | date:'yyyy-MM-dd HH:mm a'}} for a total of {{getTotalPointsFromMemberRedemptionOrder(memberRedemptionOrder.redeemedItems)}}
+          points">
+        <ng-template ngbPanelContent>
+          <div class="card-group">
+            <div class="card" *ngFor="let redemptionItem of memberRedemptionOrder.redeemedItems">
+              <img class="card-img-top" *ngIf="redemptionItem.displayImage" [src]="redemptionItem.displayImage.value" alt="Product Image">
+              <div class="card-body">
+                <h4 class="card-title">{{redemptionItem.name}}</h4>
+                <p class="card-text">{{redemptionItem.description}}</p>
+              </div>
+              <div class="card-footer text-center">
+                <small>({{redemptionItem.costInPoints}} Points)</small>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>

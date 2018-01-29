@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-9">
+    <div class="card-columns">
+      <div class="card" *ngFor="let redemptionItem of listOfAllRedemptionItems; let i = index">
+        <img class="card-img-top" *ngIf="redemptionItem.displayImage" [src]="redemptionItem.displayImage.value" alt="Product Image">
+        <div class="card-body">
+          <h4 class="card-title">{{redemptionItem.name}}</h4>
+          <p class="card-text">{{redemptionItem.description}}</p>
+        </div>
+        <div class="card-footer text-center">
+          <button class="btn btn-secondary" [disabled]="listOfRedemptionItemsInShoppingCart.includes(redemptionItem)" (click)="addToShoppingCart(redemptionItem)">
+            Add To Cart
+            <small>({{redemptionItem.costInPoints}} Points)</small>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="card border-primary">
+      <h4 class="card-header">Shopping Cart</h4>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let redemptionItemInShoppingCart of listOfRedemptionItemsInShoppingCart; let i = index">
+            {{redemptionItemInShoppingCart.name}}
+            <span class="badge badge-secondary">{{redemptionItemInShoppingCart.costInPoints}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="card-footer text-center">
+        <button class="btn btn-primary" [disabled]="listOfRedemptionItemsInShoppingCart.length == 0" (click)="confirmCheckout(modalViewForOrderSuccessMessage)">
+          Confirm Checkout ({{ getTotalCostInPointsOfShoppingCart() }})
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalViewForOrderSuccessMessage let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Success!</h4>
+    </div>
+    <div class="modal-body">
+      <ngb-alert type="success" [dismissible]="false">
+        Your order has been placed successfully!
+      </ngb-alert>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="closeModalViewForOrderSuccessMessage()">Close</button>
+    </div>
+  </ng-template>
