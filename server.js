@@ -27,4 +27,4 @@ const port = process.env.PORT || '8080';
 app.set('port', port);
 
 const server = http.createServer(app);
-server.listen(port, () => console.log(`Digital Loyalty Program - Server - Running on localhost:${port}`));
+server.listen(port, () => console.log(`One Marshall Backend - Server - Running on localhost:${port}`));
