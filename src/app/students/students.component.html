@@ -12,12 +12,11 @@
                     <th scope="col">#</th>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
+                    <th scope="col">USC Email</th>
+                    <th scope="col">Programme</th>
                     <th scope="col">Core</th>
                     <th scope="col">Class Of</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Email</th>
                     <th scope="col">LinkedIn</th>
-                    <th scope="col">Current Student?</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -26,12 +25,11 @@
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ record.firstName }}</td>
                     <td>{{ record.lastName }}</td>
+                    <td>{{ record.uscEmail }}</td>
+                    <td>{{ record.programme }}</td>
                     <td>{{ record.core }}</td>
                     <td>{{ record.classOf }}</td>
-                    <td>{{ record.phone }}</td>
-                    <td>{{ record.email }}</td>
                     <td>{{ record.linkedIn }}</td>
-                    <td>{{ record.isCurrentStudent }}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary" (click)="showEditRecordForm(record._id, modalViewForRecordDetails)">EDIT</button>
@@ -76,6 +74,20 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
+                        <label for="uscEmail">USC Email Id</label>
+                        <input type="text" class="form-control" name="uscEmail" id="uscEmail" [(ngModel)]="recordBeingEdited.uscEmail">
+                    </div>
+                </div>
+                <div class="password">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" [(ngModel)]="recordBeingEdited.password">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
                         <label for="core">Core</label>
                         <input type="text" class="form-control" name="core" id="core" [(ngModel)]="recordBeingEdited.core">
                     </div>
@@ -88,20 +100,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="phone" class="form-control" name="phone" id="phone" [(ngModel)]="recordBeingEdited.phone">
-            </div>
-            <div class="form-group">
-                <label for="email">Email Id</label>
-                <input type="email" class="form-control" name="email" id="email" [(ngModel)]="recordBeingEdited.email" [readonly]="modalViewForRecordDetails_IsOpenForAddNew == false">
-            </div>
-            <div class="form-group">
-                <label for="linkedIn">LinkedIn URL</label>
+                <label for="linkedIn">LinkedIn ID</label>
                 <input type="text" class="form-control" name="linkedIn" id="linkedIn" [(ngModel)]="recordBeingEdited.linkedIn">
-            </div>
-            <div class="form-group">
-                <label for="isCurrentStudent">Is Current Student?</label>
-                <input type="checkbox" class="form-control" name="isCurrentStudent" id="isCurrentStudent" [(ngModel)]="recordBeingEdited.isCurrentStudent">
             </div>
         </form>
     </div>

@@ -51,12 +51,13 @@ router.post('/student', function (req, res) {
     var record = {
         "firstName": req.body.firstName,
         "lastName": req.body.lastName,
+        "uscEmail": req.body.uscEmail,
+        "password": req.body.password,
+        "programme": req.body.programme,
         "core": req.body.core,
         "classOf": req.body.classOf,
-        "phone": req.body.phone,
-        "email": req.body.email,
         "linkedIn": req.body.linkedIn,
-        "isCurrentStudent": req.body.isCurrentStudent
+        "interests": req.body.interests
     };
 
     MongoClient.connect(database_url, function (err, db) {
@@ -85,6 +86,22 @@ router.get('/student/:id', function (req, res) {
     });
 });
 
+// RETRIEVE by uscEmail
+router.get('/studentbyuscemail/:uscEmail', function (req, res) {
+    console.log('Executing Web Service: Retrieve Student by uscEmail');
+
+    MongoClient.connect(database_url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('students').findOne({"uscEmail": req.params.uscEmail}, function (err, doc) {
+            assert.equal(err, null);
+            console.log("- Fetched Record: " + doc);
+
+            res.setHeader('Content-Type', 'application/json');
+            res.json(doc);
+        });
+    });
+});
+
 // UPDATE
 router.put('/student/:id', function (req, res) {
     console.log('Executing Web Service: Update Student');
@@ -92,12 +109,13 @@ router.put('/student/:id', function (req, res) {
     var record = {
         "firstName": req.body.firstName,
         "lastName": req.body.lastName,
+        "uscEmail": req.body.uscEmail,
+        "password": req.body.password,
+        "programme": req.body.programme,
         "core": req.body.core,
         "classOf": req.body.classOf,
-        "phone": req.body.phone,
-        "email": req.body.email,
         "linkedIn": req.body.linkedIn,
-        "isCurrentStudent": req.body.isCurrentStudent
+        "interests": req.body.interests
     };
 
     MongoClient.connect(database_url, function (err, db) {
