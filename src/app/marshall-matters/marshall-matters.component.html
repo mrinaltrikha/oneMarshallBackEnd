@@ -63,7 +63,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="description">Title</label>
-                        <input type="text" class="form-control" rows="3" name="description" id="description" [(ngModel)]="recordBeingEdited.description">
+                        <textarea type="text" class="form-control" rows="3" name="description" id="description" [(ngModel)]="recordBeingEdited.description"></textarea>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="upVotes">Up Votes</label>
-                        <textarea type="text" class="form-control" name="upVotes" id="upVotes" [(ngModel)]="recordBeingEdited.upVotes"></textarea>
+                        <input type="text" class="form-control" name="upVotes" id="upVotes" [(ngModel)]="recordBeingEdited.upVotes">
                     </div>
                 </div>
                 <div class="col">

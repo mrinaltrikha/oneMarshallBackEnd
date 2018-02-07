@@ -167,7 +167,7 @@ router.post('/issue', function (req, res) {
         "title": req.body.title,
         "description": req.body.description,
         "upVotes": req.body.upVotes,
-        "upVotes": req.body.createdOn
+        "createdOn": req.body.createdOn
     };
 
     MongoClient.connect(database_url, function (err, db) {
@@ -204,7 +204,7 @@ router.put('/issue/:id', function (req, res) {
         "title": req.body.title,
         "description": req.body.description,
         "upVotes": req.body.upVotes,
-        "upVotes": req.body.createdOn
+        "createdOn": req.body.createdOn
     };
 
     MongoClient.connect(database_url, function (err, db) {
