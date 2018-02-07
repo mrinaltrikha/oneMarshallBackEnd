@@ -156,6 +156,95 @@ router.get('/students', function (req, res) {
 });
 
 //==============================================================
+// RESTful WEB SERVICES - MARSHALL MATTERS
+//==============================================================
+
+// CREATE
+router.post('/issue', function (req, res) {
+    console.log('Executing Web Service: Create Issue');
+
+    var record = {
+        "title": req.body.title,
+        "description": req.body.description,
+        "upVotes": req.body.upVotes,
+        "upVotes": req.body.createdOn
+    };
+
+    MongoClient.connect(database_url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('issues').insertOne(record, function (err, result) {
+            assert.equal(err, null);
+            console.log("- Added Record: " + record);
+            res.send({});
+        });
+    });
+});
+
+// RETRIEVE
+router.get('/issue/:id', function (req, res) {
+    console.log('Executing Web Service: Retrieve Issue');
+
+    MongoClient.connect(database_url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('issues').findOne(ObjectId(req.params.id), function (err, doc) {
+            assert.equal(err, null);
+            console.log("- Fetched Record: " + doc);
+
+            res.setHeader('Content-Type', 'application/json');
+            res.json(doc);
+        });
+    });
+});
+
+// UPDATE
+router.put('/issue/:id', function (req, res) {
+    console.log('Executing Web Service: Update Issue');
+
+    var record = {
+        "title": req.body.title,
+        "description": req.body.description,
+        "upVotes": req.body.upVotes,
+        "upVotes": req.body.createdOn
+    };
+
+    MongoClient.connect(database_url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('issues').updateOne({ "_id": ObjectId(req.params.id) }, { $set: record });
+        console.log('- Updated Record: ' + record);
+        res.send('{}');
+    });
+});
+
+// DELETE
+router.delete('/issue/:id', function (req, res) {
+    console.log('Executing Web Service: Delete Issue');
+
+    MongoClient.connect(database_url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('issues').deleteOne({ "_id": ObjectId(req.params.id) }, function () {
+            console.log('- Deleted Issue');
+            res.send({});
+        });
+    });
+});
+
+// RETRIEVE ALL
+router.get('/issues', function (req, res) {
+    console.log('Executing Web Service: Retrieve All Issues');
+
+    MongoClient.connect(database_url, function (err, db) {
+        assert.equal(null, err);
+        db.collection('issues').find({}).toArray(function (err, arrayOfDocs) {
+            assert.equal(err, null);
+            console.log("- All Retieved Issues: " + arrayOfDocs);
+
+            res.setHeader('Content-Type', 'application/json');
+            res.json(arrayOfDocs);
+        });
+    });
+});
+
+//==============================================================
 // RESTful WEB SERVICES - MEMBERS
 //==============================================================
 

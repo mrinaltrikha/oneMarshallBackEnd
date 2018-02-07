@@ -10,6 +10,7 @@ import {HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { StudentsComponent } from './students/students.component';
+import { MarshallMattersComponent } from './marshall-matters/marshall-matters.component';
 import { MembersComponent } from './members/members.component';
 import { PartnersComponent } from './partners/partners.component';
 import { HomeAdminComponent } from './home.admin/home.admin.component';
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'homeAdmin', component: HomeAdminComponent },
   { path: 'students', component: StudentsComponent },
+  { path: 'marshallMatters', component: MarshallMattersComponent },
   { path: 'members', component: MembersComponent },
   { path: 'partners', component: PartnersComponent },
   { path: 'redemptionItems', component: RedeptionItemsComponent },
@@ -35,6 +37,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     StudentsComponent,
+    MarshallMattersComponent,
     MembersComponent,
     PartnersComponent,
     HomeAdminComponent,

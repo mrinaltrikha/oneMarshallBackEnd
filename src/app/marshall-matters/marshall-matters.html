@@ -1,8 +1,8 @@
 <div class="card">
-    <h4 class="card-header">All Registered Students</h4>
+    <h4 class="card-header">All Reported Marshall Matters</h4>
     <div class="card-body text-right">
         <button type="button" class="btn btn-primary" (click)="showAddNewRecordForm(modalViewForRecordDetails)">
-            Add Student
+            Add New Marshall Matter
         </button>
     </div>
     <div class="card-body">
@@ -10,26 +10,20 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">USC Email</th>
-                    <th scope="col">Programme</th>
-                    <th scope="col">Core</th>
-                    <th scope="col">Class Of</th>
-                    <th scope="col">LinkedIn</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Up Votes</th>
+                    <th scope="col">Reported On</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let record of listOfAllRecords; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ record.firstName }}</td>
-                    <td>{{ record.lastName }}</td>
-                    <td>{{ record.uscEmail }}</td>
-                    <td>{{ record.programme }}</td>
-                    <td>{{ record.core }}</td>
-                    <td>{{ record.classOf }}</td>
-                    <td>{{ record.linkedIn }}</td>
+                    <td>{{ record.title }}</td>
+                    <td>{{ record.description }}</td>
+                    <td>{{ record.upVotes }}</td>
+                    <td>{{ record.createdOn }}</td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary" (click)="showEditRecordForm(record._id, modalViewForRecordDetails)">EDIT</button>
@@ -60,52 +54,32 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="recordBeingEdited.firstName">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" name="lastName" id="lastName" [(ngModel)]="recordBeingEdited.lastName">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" name="title" id="title" [(ngModel)]="recordBeingEdited.title">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="uscEmail">USC Email Id</label>
-                        <input type="text" class="form-control" name="uscEmail" id="uscEmail" [(ngModel)]="recordBeingEdited.uscEmail">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" [(ngModel)]="recordBeingEdited.password">
+                        <label for="description">Title</label>
+                        <textarea type="text" class="form-control" rows="3" name="description" id="description" [(ngModel)]="recordBeingEdited.description">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="core">Core</label>
-                        <input type="text" class="form-control" name="core" id="core" [(ngModel)]="recordBeingEdited.core">
+                        <label for="upVotes">Up Votes</label>
+                        <input type="text" class="form-control" name="upVotes" id="upVotes" [(ngModel)]="recordBeingEdited.upVotes">
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="classOf">Class Of</label>
-                        <input type="text" class="form-control" name="classOf" id="classOf" [(ngModel)]="recordBeingEdited.classOf">
+                        <label for="createdOn">Reported On</label>
+                        <input type="date" class="form-control" name="createdOn" id="createdOn" [(ngModel)]="recordBeingEdited.createdOn">
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="linkedIn">LinkedIn ID</label>
-                <input type="text" class="form-control" name="linkedIn" id="linkedIn" [(ngModel)]="recordBeingEdited.linkedIn">
-            </div>
-            <div class="form-group">
-                <label for="interests">Interests</label>
-                <input type="text" class="form-control" name="interests" id="interests" [(ngModel)]="recordBeingEdited.interests">
             </div>
         </form>
     </div>
