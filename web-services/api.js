@@ -54,6 +54,9 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
     var code = req.query.code;
     var state = req.query.state;
 
+    console.log('- Received Code : ' + code);
+    console.log('- Received State: ' + state);
+
     request.post({url:'https://www.linkedin.com/oauth/v2/accessToken', form: {
         grant_type: 'authorization_code',
         code: code,
