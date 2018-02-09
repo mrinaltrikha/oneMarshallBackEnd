@@ -61,7 +61,7 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
     var form = {
         grant_type: 'authorization_code',
         code: code,
-        redirect_uri: 'http%3A%2F%2Fec2-13-57-24-156.us-west-1.compute.amazonaws.com%3A8080%2Fapi%2Flinkedin%2FOAuthTwo%2FAuthorizedRedirectURL',
+        redirect_uri: 'http://ec2-13-57-24-156.us-west-1.compute.amazonaws.com:8080/api/linkedin/OAuthTwo/AuthorizedRedirectURL',
         client_id: '863e3dqdym6itx',
         client_secret: '1boWyHKM2sUplhiS'
     };
