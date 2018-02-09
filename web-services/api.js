@@ -3,6 +3,7 @@ const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const ObjectId = require('mongodb').ObjectID;
+const request = require('request');
 
 var database_url = 'mongodb://localhost:27017/digital_loyalty_program';
 if (process.argv.length > 2 && process.argv[2] === "production") {
@@ -50,8 +51,21 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
 
     console.log(req.query);
 
-    res.setHeader('Content-Type', 'application/json');
-    res.json({});
+    var code = req.query.code;
+    var state = req.query.state;
+
+    request.post({url:'https://www.linkedin.com/oauth/v2/accessToken', form: {
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: 'http%3A%2F%2Fec2-13-57-24-156.us-west-1.compute.amazonaws.com%3A8080%2Fapi%2Flinkedin%2FOAuthTwo%2FAuthorizedRedirectURL',
+        client_id: '863e3dqdym6itx',
+        client_secret: '1boWyHKM2sUplhiS'
+    }}, function(err,httpResponse,body) {
+        console.log(body);
+
+        res.setHeader('Content-Type', 'application/json');
+        res.json({});
+    });
 });
 
 //==============================================================
