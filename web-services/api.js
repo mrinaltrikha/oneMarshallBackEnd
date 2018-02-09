@@ -51,7 +51,7 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
     console.log(req.query);
 
     res.setHeader('Content-Type', 'application/json');
-    res.json(doc);
+    res.json({});
 });
 
 //==============================================================
