@@ -41,6 +41,20 @@ let response = {
 // });
 
 //==============================================================
+// RESTful WEB SERVICES - LinkedIn
+//==============================================================
+
+// OAuth 2.0 - Authorized Redirect URL
+router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
+    console.log('Executing Web Service: LinkedIn - OAuth 2.0 - Authorized Redirect URL');
+
+    console.log(req.query);
+
+    res.setHeader('Content-Type', 'application/json');
+    res.json(doc);
+});
+
+//==============================================================
 // RESTful WEB SERVICES - STUDENTS
 //==============================================================
 
