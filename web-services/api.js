@@ -3,6 +3,7 @@ const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const ObjectId = require('mongodb').ObjectID;
+const querystring = require('querystring');
 const request = require('request');
 
 var database_url = 'mongodb://localhost:27017/digital_loyalty_program';
@@ -57,13 +58,26 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
     console.log('- Received Code : ' + code);
     console.log('- Received State: ' + state);
 
-    request.post({url:'https://www.linkedin.com/oauth/v2/accessToken', form: {
+    var form = {
         grant_type: 'authorization_code',
         code: code,
         redirect_uri: 'http%3A%2F%2Fec2-13-57-24-156.us-west-1.compute.amazonaws.com%3A8080%2Fapi%2Flinkedin%2FOAuthTwo%2FAuthorizedRedirectURL',
         client_id: '863e3dqdym6itx',
         client_secret: '1boWyHKM2sUplhiS'
-    }}, function(err,httpResponse,body) {
+    };
+    
+    var formData = querystring.stringify(form);
+    var contentLength = formData.length;
+    
+    request({
+        headers: {
+            'Content-Length': contentLength,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        uri: 'https://www.linkedin.com/oauth/v2/accessToken',
+        body: formData,
+        method: 'POST'
+    }, function (err,httpResponse,body) {
         console.log(body);
 
         res.setHeader('Content-Type', 'application/json');
