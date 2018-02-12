@@ -79,24 +79,73 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
         method: 'POST'
     }, function (err,httpResponse,body) {
         console.log(body);
+        var bodyJson = JSON.parse(body);
 
         MongoClient.connect(database_url, function (err, db) {
             assert.equal(null, err);
+
+            var accessToken = bodyJson['access_token'];
+            var accessTokenExpiresIn = bodyJson['expires_in'];
             
-            console.log('- Received Body         : ' + JSON.parse(body));
-            console.log('- Received Access Token : ' + JSON.parse(body)['access_token']);
-            console.log('- Received Expires In   : ' + JSON.parse(body)['expires_in']);
+            console.log('- Received Access Token : ' + accessToken);
+            console.log('- Received Expires In   : ' + accessTokenExpiresIn);
 
             var updateFields = {
-                "accessToken": JSON.parse(body)['access_token'],
-                "accessTokenExpiresInSec": JSON.parse(body)['expires_in'],
+                "accessToken": accessToken,
+                "accessTokenExpiresInSec": accessTokenExpiresIn,
             };
             db.collection('students').updateOne({ "_id": ObjectId(state) }, { $set: updateFields });
             
             console.log('- Updated Record with Access Token: ' + JSON.stringify(updateFields));
 
-            res.setHeader('Content-Type', 'application/json');
-            res.json({});
+            request({
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                },
+                uri: 'https://api.linkedin.com/v1/people/~?format=json',
+                method: 'GET'
+            }, function (err,httpResponse,body) {
+                console.log(body);
+                var bodyJson = JSON.parse(body);
+
+                var linkedInId = bodyJson['id'];
+                var linkedInHeadline = bodyJson['headline'];
+                
+                console.log('- Received LinkedIn ID      : ' + linkedInId);
+                console.log('- Received LinkedIn Headline: ' + linkedInHeadline);
+
+                var updateFields = {
+                    "linkedInId": linkedInId,
+                    "linkedInHeadline": linkedInHeadline,
+                };
+                db.collection('students').updateOne({ "_id": ObjectId(state) }, { $set: updateFields });
+                
+                console.log('- Updated Record with LinkedIn Profile: ' + JSON.stringify(updateFields));
+
+                request({
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken
+                    },
+                    uri: 'https://api.linkedin.com/v1/people/' + linkedInId + '/picture-url?format=json',
+                    method: 'GET'
+                }, function (err,httpResponse,body) {
+                    console.log(body);
+
+                    var linkedInPictureUrl = str(body).replace('"', '');
+    
+                    console.log('- Received LinkedIn Profile Picture Url: ' + linkedInPictureUrl);
+
+                    var updateFields = {
+                        "linkedInPictureUrl": linkedInPictureUrl
+                    };
+                    db.collection('students').updateOne({ "_id": ObjectId(state) }, { $set: updateFields });
+                    
+                    console.log('- Updated Record with LinkedIn Profile Picture Url: ' + JSON.stringify(updateFields));
+    
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({});
+                });
+            });
         });
     });
 });
@@ -120,7 +169,10 @@ router.post('/student', function (req, res) {
         "linkedIn": req.body.linkedIn,
         "interests": req.body.interests,
         "accessToken": req.body.accessToken,
-        "accessTokenExpiresInSec": req.body.accessTokenExpiresInSec
+        "accessTokenExpiresInSec": req.body.accessTokenExpiresInSec,
+        "linkedInId": req.body.linkedInId,
+        "linkedInHeadline": req.body.linkedInHeadline,
+        "linkedInPictureUrl": req.body.linkedInPictureUrl
     };
 
     MongoClient.connect(database_url, function (err, db) {
@@ -180,7 +232,10 @@ router.put('/student/:id', function (req, res) {
         "linkedIn": req.body.linkedIn,
         "interests": req.body.interests,
         "accessToken": req.body.accessToken,
-        "accessTokenExpiresInSec": req.body.accessTokenExpiresInSec
+        "accessTokenExpiresInSec": req.body.accessTokenExpiresInSec,
+        "linkedInId": req.body.linkedInId,
+        "linkedInHeadline": req.body.linkedInHeadline,
+        "linkedInPictureUrl": req.body.linkedInPictureUrl
     };
 
     MongoClient.connect(database_url, function (err, db) {
