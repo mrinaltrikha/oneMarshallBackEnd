@@ -83,6 +83,7 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
         MongoClient.connect(database_url, function (err, db) {
             assert.equal(null, err);
             
+            console.log('- Received Body         : ' + body);
             console.log('- Received Access Token : ' + body['access_token']);
             console.log('- Received Expires In   : ' + body['expires_in']);
 
