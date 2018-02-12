@@ -80,6 +80,17 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
     }, function (err,httpResponse,body) {
         console.log(body);
 
+        MongoClient.connect(database_url, function (err, db) {
+            assert.equal(null, err);
+            var updateFields = {
+                accessToken: body['access_token'],
+                accessTokenExpiresInSec: body['expires_in'],
+            };
+            db.collection('students').updateOne({ "_id": ObjectId(state) }, { $set: updateFields });
+            console.log('- Updated Record with Access Token: ' + updateFields);
+            res.send('{}');
+        });
+
         res.setHeader('Content-Type', 'application/json');
         res.json({});
     });
@@ -102,7 +113,9 @@ router.post('/student', function (req, res) {
         "core": req.body.core,
         "classOf": req.body.classOf,
         "linkedIn": req.body.linkedIn,
-        "interests": req.body.interests
+        "interests": req.body.interests,
+        "accessToken": req.body.accessToken,
+        "accessTokenExpiresInSec": req.body.accessTokenExpiresInSec
     };
 
     MongoClient.connect(database_url, function (err, db) {
@@ -160,7 +173,9 @@ router.put('/student/:id', function (req, res) {
         "core": req.body.core,
         "classOf": req.body.classOf,
         "linkedIn": req.body.linkedIn,
-        "interests": req.body.interests
+        "interests": req.body.interests,
+        "accessToken": req.body.accessToken,
+        "accessTokenExpiresInSec": req.body.accessTokenExpiresInSec
     };
 
     MongoClient.connect(database_url, function (err, db) {

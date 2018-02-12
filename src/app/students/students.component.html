@@ -107,6 +107,20 @@
                 <label for="interests">Interests</label>
                 <input type="text" class="form-control" name="interests" id="interests" [(ngModel)]="recordBeingEdited.interests">
             </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="accessToken">LinkedIn Access Token</label>
+                        <input type="text" class="form-control" name="accessToken" id="accessToken" [(ngModel)]="recordBeingEdited.accessToken">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="accessTokenExpiresInSec">Expires In (seconds)</label>
+                        <input type="text" class="form-control" name="accessTokenExpiresInSec" id="accessTokenExpiresInSec" [(ngModel)]="recordBeingEdited.accessTokenExpiresInSec">
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
     <div class="modal-footer">

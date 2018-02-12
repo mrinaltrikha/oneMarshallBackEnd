@@ -10,6 +10,13 @@ sudo ng build
 sudo node server.js production
 
 
+pm2 stop server
+sudo git pull
+sudo ng build
+pm2 start server.js -- production
+pm2 logs
+
+
 
 
 
