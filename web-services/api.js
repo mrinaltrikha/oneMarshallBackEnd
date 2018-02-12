@@ -83,8 +83,8 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
         MongoClient.connect(database_url, function (err, db) {
             assert.equal(null, err);
             var updateFields = {
-                accessToken: body['access_token'],
-                accessTokenExpiresInSec: body['expires_in'],
+                "accessToken": body['access_token'],
+                "accessTokenExpiresInSec": body['expires_in'],
             };
             db.collection('students').updateOne({ "_id": ObjectId(state) }, { $set: updateFields });
             console.log('- Updated Record with Access Token: ' + JSON.stringify(updateFields));
