@@ -131,7 +131,7 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
                 }, function (err,httpResponse,body) {
                     console.log(body);
 
-                    var linkedInPictureUrl = str(body).replace('"', '');
+                    var linkedInPictureUrl = body.replace('"', '');
     
                     console.log('- Received LinkedIn Profile Picture Url: ' + linkedInPictureUrl);
 
