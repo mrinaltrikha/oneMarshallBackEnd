@@ -87,12 +87,11 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
                 accessTokenExpiresInSec: body['expires_in'],
             };
             db.collection('students').updateOne({ "_id": ObjectId(state) }, { $set: updateFields });
-            console.log('- Updated Record with Access Token: ' + updateFields);
-            res.send('{}');
-        });
+            console.log('- Updated Record with Access Token: ' + JSON.stringify(updateFields));
 
-        res.setHeader('Content-Type', 'application/json');
-        res.json({});
+            res.setHeader('Content-Type', 'application/json');
+            res.json({});
+        });
     });
 });
 
