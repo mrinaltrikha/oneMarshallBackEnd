@@ -110,13 +110,16 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
 
                 var linkedInId = bodyJson['id'];
                 var linkedInHeadline = bodyJson['headline'];
+                var linkedInProfileUrl= bodyJson['siteStandardProfileRequest']['url'];
                 
-                console.log('- Received LinkedIn ID      : ' + linkedInId);
-                console.log('- Received LinkedIn Headline: ' + linkedInHeadline);
+                console.log('- Received LinkedIn ID         : ' + linkedInId);
+                console.log('- Received LinkedIn Headline   : ' + linkedInHeadline);
+                console.log('- Received LinkedIn Profile Url: ' + linkedInProfileUrl);
 
                 var updateFields = {
                     "linkedInId": linkedInId,
                     "linkedInHeadline": linkedInHeadline,
+                    "linkedInProfileUrl": linkedInProfileUrl
                 };
                 db.collection('students').updateOne({ "_id": ObjectId(state) }, { $set: updateFields });
                 
@@ -142,8 +145,30 @@ router.get('/linkedin/OAuthTwo/AuthorizedRedirectURL', function (req, res) {
                     
                     console.log('- Updated Record with LinkedIn Profile Picture Url: ' + JSON.stringify(updateFields));
     
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json({});
+                    request({
+                        headers: {
+                            'Authorization': 'Bearer ' + accessToken
+                        },
+                        uri: 'https://api.linkedin.com/v1/people/~/picture-urls::(original)?format=json',
+                        method: 'GET'
+                    }, function (err,httpResponse,body) {
+                        console.log(body);
+                        var bodyJson = JSON.parse(body);
+
+                        var linkedInOriginalPictureUrl = bodyJson['values'][0];
+    
+                        console.log('- Received LinkedIn Original Profile Picture Url: ' + linkedInOriginalPictureUrl);
+    
+                        var updateFields = {
+                            "linkedInOriginalPictureUrl": linkedInOriginalPictureUrl
+                        };
+                        db.collection('students').updateOne({ "_id": ObjectId(state) }, { $set: updateFields });
+                        
+                        console.log('- Updated Record with LinkedIn Original Profile Picture Url: ' + JSON.stringify(updateFields));
+        
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json({});
+                    });
                 });
             });
         });
@@ -171,8 +196,10 @@ router.post('/student', function (req, res) {
         "accessToken": req.body.accessToken,
         "accessTokenExpiresInSec": req.body.accessTokenExpiresInSec,
         "linkedInId": req.body.linkedInId,
+        "linkedInProfileUrl": req.body.linkedInProfileUrl,
         "linkedInHeadline": req.body.linkedInHeadline,
-        "linkedInPictureUrl": req.body.linkedInPictureUrl
+        "linkedInPictureUrl": req.body.linkedInPictureUrl,
+        "linkedInOriginalPictureUrl": req.body.linkedInOriginalPictureUrl
     };
 
     MongoClient.connect(database_url, function (err, db) {
@@ -234,8 +261,10 @@ router.put('/student/:id', function (req, res) {
         "accessToken": req.body.accessToken,
         "accessTokenExpiresInSec": req.body.accessTokenExpiresInSec,
         "linkedInId": req.body.linkedInId,
+        "linkedInProfileUrl": req.body.linkedInProfileUrl,
         "linkedInHeadline": req.body.linkedInHeadline,
-        "linkedInPictureUrl": req.body.linkedInPictureUrl
+        "linkedInPictureUrl": req.body.linkedInPictureUrl,
+        "linkedInOriginalPictureUrl": req.body.linkedInOriginalPictureUrl
     };
 
     MongoClient.connect(database_url, function (err, db) {

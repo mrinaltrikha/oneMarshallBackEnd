@@ -1,1 +1,9 @@
 https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=863e3dqdym6itx&redirect_uri=http%3A%2F%2Fec2-13-57-24-156.us-west-1.compute.amazonaws.com%3A8080%2Fapi%2Flinkedin%2FOAuthTwo%2FAuthorizedRedirectURL&state=987654321
+
+
+
+https://api.linkedin.com/v1/people-search:(people:(id,first-name,last-name,headline,picture-url,industry,positions:(id,title,summary,start-date,end-date,is-current,company:(id,name,type,size,industry,ticker)),educations:(id,school-name,field-of-study,start-date,end-date,degree,activities,notes)),num-results)?first-name=parameter&last-name=parameter
+
+
+
+/v1/people/~:(id)
